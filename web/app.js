@@ -43,11 +43,84 @@ function openAuth(mode = 'login') {
       <label class="field-label">Email address</label><input class="text-input" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
       <label class="field-label">Password ${signup ? '(8 characters or more)' : ''}</label><input class="text-input" name="password" type="password" autocomplete="${signup ? 'new-password' : 'current-password'}" required ${signup ? 'minlength="8"' : ''} placeholder="••••••••">
       <button class="button button-coral button-wide" type="submit">${signup ? 'Create my account' : 'Sign in'} ${icon('arrow')}</button><div id="auth-error" class="form-error"></div></form>
-    ${signup ? '' : `<div class="demo-login"><span>OR TRY A DEMO ACCOUNT</span><div class="demo-buttons"><button type="button" data-demo="traveler">Traveller</button><button type="button" data-demo="guide">Local guide</button><button type="button" data-demo="admin">Admin</button></div></div>`}`);
+    ${signup ? '' : `<button class="text-link" type="button" data-forgot-password>Forgot your password?</button><div class="demo-login"><span>OR TRY A DEMO ACCOUNT</span><div class="demo-buttons"><button type="button" data-demo="traveler">Traveller</button><button type="button" data-demo="guide">Local guide</button><button type="button" data-demo="admin">Admin</button></div></div>`}`);
   $('#auth-form').addEventListener('submit', submitAuth);
-  $$('[data-auth-tab]').forEach(button => button.addEventListener('click', () => openAuth(button.dataset.authTab)));
+  $('[data-auth-tab]').forEach(button => button.addEventListener('click', () => openAuth(button.dataset.authTab)));
+  const forgotButton = $('[data-forgot-password]');
+  if (forgotButton) forgotButton.addEventListener('click', () => openForgotPassword($('#auth-form [name="email"]').value));
   $$('[data-demo]').forEach(button => button.addEventListener('click', () => signInDemo(button.dataset.demo, button)));
 }
+
+function openForgotPassword(email = '') {
+  modal('<div class="eyebrow"><span class="eyebrow-line"></span> YOUR ACCOUNT, YOURS AGAIN</div>' +
+    '<h2>Reset your password.</h2><p>Enter the email address on your account. If it exists, we will send a reset link.</p>' +
+    '<form id="password-reset-request-form"><label class="field-label">Email address</label>' +
+    '<input class="text-input" name="email" type="email" autocomplete="email" required maxlength="254" value="' + esc(email) + '" placeholder="you@example.com">' +
+    '<button class="button button-coral button-wide" type="submit">Send reset link ' + icon('arrow') + '</button>' +
+    '<div id="password-reset-request-status" class="form-error" role="status" aria-live="polite"></div></form>' +
+    '<button class="text-link" id="reset-back-signin" type="button">Back to sign in</button>');
+  $('#password-reset-request-form').addEventListener('submit', submitPasswordResetRequest);
+  $('#reset-back-signin').addEventListener('click', () => {
+    const value = $('#password-reset-request-form [name="email"]').value;
+    openAuth('login');
+    $('#auth-form [name="email"]').value = value;
+  });
+}
+async function submitPasswordResetRequest(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = $('button[type="submit"]', form);
+  const status = $('#password-reset-request-status');
+  setBusy(button, true, 'Sending…');
+  try {
+    const values = Object.fromEntries(new FormData(form));
+    const data = await api('/api/auth/forgot-password', { method: 'POST', body: JSON.stringify(values) });
+    status.className = 'form-success';
+    status.textContent = data.message;
+  } catch (error) {
+    status.className = 'form-error';
+    status.textContent = error.message;
+  } finally {
+    setBusy(button, false);
+  }
+}
+function openPasswordReset(token) {
+  modal('<div class="eyebrow"><span class="eyebrow-line"></span> A FRESH START</div>' +
+    '<h2>Choose a new password.</h2><p>This link expires in 30 minutes and works once.</p>' +
+    '<form id="password-reset-form"><label class="field-label">New password (8 characters or more)</label>' +
+    '<input class="text-input" name="password" type="password" autocomplete="new-password" required minlength="8" maxlength="200">' +
+    '<label class="field-label">Confirm new password</label>' +
+    '<input class="text-input" name="confirm_password" type="password" autocomplete="new-password" required minlength="8" maxlength="200">' +
+    '<button class="button button-coral button-wide" type="submit">Save new password ' + icon('arrow') + '</button>' +
+    '<div id="password-reset-status" class="form-error" role="status" aria-live="polite"></div></form>');
+  $('#password-reset-form').addEventListener('submit', event => submitPasswordReset(event, token));
+}
+async function submitPasswordReset(event, token) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const values = Object.fromEntries(new FormData(form));
+  const status = $('#password-reset-status');
+  if (values.password !== values.confirm_password) {
+    status.textContent = 'The passwords do not match.';
+    return;
+  }
+  const button = $('button[type="submit"]', form);
+  setBusy(button, true, 'Saving…');
+  let completed = false;
+  try {
+    await api('/api/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, password: values.password }) });
+    completed = true;
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    setBusy(button, false);
+  }
+  if (completed) {
+    closeModal();
+    notify('Password updated. Sign in with your new password.');
+  }
+}
+
 async function submitAuth(event) {
   event.preventDefault(); const form = event.currentTarget; const button = $('button[type="submit"]', form); setBusy(button, true);
   try {
@@ -83,6 +156,13 @@ function renderUser() {
 }
 
 async function boot() {
+  const currentUrl = new URL(window.location.href);
+  const resetToken = currentUrl.searchParams.get('reset');
+  if (resetToken) {
+    currentUrl.searchParams.delete('reset');
+    history.replaceState(null, '', currentUrl.pathname + currentUrl.search + currentUrl.hash);
+    openPasswordReset(resetToken);
+  }
   const today = new Date(); $('#expense-date').value = today.toISOString().slice(0, 10);
   try {
     const data = await api('/api/bootstrap'); app.user = data.user; app.destinations = data.destinations; app.guides = data.guides;
