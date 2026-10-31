@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="Plan thoughtful trips, track your spend and meet verified local guides with DESTINEX.">
+  <title>DESTINEX — Plan smart. Travel trusted.</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <svg class="icon-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-mark" viewBox="0 0 32 32"><path d="M4 25.5 13.7 6l4.1 9.1 3.1-5.8L28 25.5H4Z" fill="currentColor"/><path d="m10.3 25.5 3.4-6.8 2.8 4.3 3-5.7 3.8 8.2" fill="none" stroke="#f7f5ef" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23.8" cy="8.2" r="2" fill="#dd785f"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2.2" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7L12 2Zm7 12 .8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m8.5 12 2.2 2.2 4.8-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 6.5h15a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M21 11h-5a2 2 0 0 0 0 4h5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="16" cy="13" r=".8" fill="currentColor"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <div class="top-note"><span class="note-dot"></span> Your next trip can do good here <span class="note-sep">·</span> meet the people who make a place special</div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="DESTINEX home"><span class="brand-mark"><svg><use href="#i-mark"/></svg></span><span>DESTINEX<span class="brand-period">.</span></span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#planner">Plan a trip</a><a href="#guides">Local guides</a><a href="#budget">Budget</a><a href="#bookings">Bookings</a>
+    </nav>
+    <div class="header-actions"><div id="user-menu" class="user-menu hidden"></div><button id="auth-open" class="button button-dark button-small">Sign in <svg><use href="#i-arrow"/></svg></button><button id="mobile-menu" class="icon-button mobile-menu" aria-label="Open menu"><svg><use href="#i-menu"/></svg></button></div>
+  </header>
+
+  <main id="top">
+    <div id="payment-note" class="payment-note hidden"><span class="note-icon">i</span><span><strong>Preview mode.</strong> Bookings and payments here are demonstrations; no money is charged.</span><button aria-label="Dismiss note" id="dismiss-note"><svg><use href="#i-close"/></svg></button></div>
+
+    <section class="hero section-wrap">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> TRAVEL THAT FEELS LIKE YOURS</div>
+        <h1>Go a little<br><em>closer.</em></h1>
+        <p class="hero-lede">Thoughtful plans, honest local guides and a budget that stays in your hands. Start with the kind of trip you want to remember.</p>
+        <div class="hero-ctas"><a href="#planner" class="button button-coral">Plan your trip <svg><use href="#i-arrow"/></svg></a><a href="#guides" class="text-link">Meet the guides <span>↗</span></a></div>
+        <div class="hero-proof"><div class="avatar-stack"><span>R</span><span>A</span><span>M</span><span>F</span></div><div><strong>Local, all the way.</strong><small>People first. Places second.</small></div><span class="proof-divider"></span><span class="proof-stars">★★★★★</span><small>4.9 local rating</small></div>
+      </div>
+      <div class="hero-art" role="img" aria-label="Illustration of a sunrise over green hills and a winding road">
+        <div class="art-label"><span class="art-label-icon"><svg><use href="#i-pin"/></svg></span><span><b>Araku Valley</b><small>Andhra Pradesh, India</small></span><span class="art-weather">24° <i>☀</i></span></div>
+        <div class="sun"></div><div class="cloud cloud-one"></div><div class="cloud cloud-two"></div>
+        <div class="hill hill-back"></div><div class="hill hill-mid"></div><div class="hill hill-front"></div><div class="road"></div>
+        <div class="art-caption"><span>01 / 05</span><span class="caption-line"></span><span>Somewhere worth slowing down for</span></div>
+        <div class="art-stamp">TAKE<br>THE<br>SCENIC<br>ROUTE</div>
+      </div>
+    </section>
+
+    <section class="trust-strip section-wrap" aria-label="What makes DESTINEX different">
+      <div class="trust-item"><span class="trust-icon peach"><svg><use href="#i-spark"/></svg></span><span><b>Plans with a point of view</b><small>Made around your interests</small></span></div>
+      <div class="trust-item"><span class="trust-icon sage"><svg><use href="#i-shield"/></svg></span><span><b>Guides you can trust</b><small>Reviewed before they go live</small></span></div>
+      <div class="trust-item"><span class="trust-icon blue"><svg><use href="#i-wallet"/></svg></span><span><b>Your budget, in view</b><small>Track the trip as it happens</small></span></div>
+      <div class="trust-item"><span class="trust-icon lilac"><svg><use href="#i-globe"/></svg></span><span><b>Meet in your language</b><small>Local help, made welcoming</small></span></div>
+    </section>
+
+    <section id="planner" class="section-wrap section-block">
+      <div class="section-heading">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> A GOOD TRIP STARTS HERE</div><h2>Tell us what feels <em>right.</em></h2></div>
+        <p>A few details are all we need to shape a first draft. You can make it yours from there.</p>
+      </div>
+      <div class="planner-grid">
+        <form id="plan-form" class="planner-form card-surface">
+          <div class="form-title"><span class="form-number">01</span><div><b>Your trip, your way</b><small>A little inspiration goes a long way.</small></div><span class="sparkle"><svg><use href="#i-spark"/></svg></span></div>
+          <label class="field-label" for="destination">Where to?</label>
+          <div class="select-shell"><svg><use href="#i-pin"/></svg><select id="destination" name="destination" required><option value="">Choose a destination</option></select><span>⌄</span></div>
+          <div class="field-row">
+            <label class="field-wrap"><span class="field-label">How many days?</span><span class="input-shell"><input name="days" type="number" min="1" max="7" value="3" required><span>days</span></span></label>
+            <label class="field-wrap"><span class="field-label">Your trip budget</span><span class="input-shell"><span class="currency">₹</span><input name="budget" type="number" min="1000" step="500" value="9000" required></span></label>
+          </div>
+          <fieldset class="interest-field"><legend class="field-label">What are you drawn to?</legend><div class="interest-chips"><label><input type="checkbox" name="interests" value="culture" checked><span>Culture</span></label><label><input type="checkbox" name="interests" value="nature" checked><span>Nature</span></label><label><input type="checkbox" name="interests" value="food"><span>Local food</span></label><label><input type="checkbox" name="interests" value="adventure"><span>Adventure</span></label></div></fieldset>
+          <button class="button button-coral button-wide" type="submit" id="plan-submit"><svg><use href="#i-spark"/></svg> Shape my itinerary <svg><use href="#i-arrow"/></svg></button>
+          <p class="form-footnote">A thoughtful starting point, with room to wander.</p>
+        </form>
+        <div class="planner-preview" id="planner-preview">
+          <div class="preview-top"><span class="preview-kicker">YOUR CANVAS, BEFORE THE COLOURS</span><span class="tiny-pill"><span></span> READY WHEN YOU ARE</span></div>
+          <div class="empty-itinerary"><span class="empty-compass">✳</span><h3>Every great trip starts<br>with a first draft.</h3><p>Share your destination and budget. We’ll put together a local-first plan that you can adjust as you go.</p><div class="preview-divider"></div><span class="preview-tip"><svg><use href="#i-spark"/></svg> No rigid schedules. Just good ideas.</span></div>
+          <div id="plan-result" class="plan-result hidden"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="guides" class="guides-section">
+      <div class="section-wrap section-block">
+        <div class="section-heading guides-heading">
+          <div><div class="eyebrow"><span class="eyebrow-line"></span> THE PEOPLE WHO KNOW</div><h2>Go with someone<br>who <em>calls it home.</em></h2></div>
+          <div class="guide-controls"><label class="select-shell compact"><svg><use href="#i-pin"/></svg><select id="guide-destination"><option value="">Everywhere</option></select><span>⌄</span></label><label class="select-shell compact"><svg><use href="#i-globe"/></svg><select id="guide-language"><option value="">Any language</option></select><span>⌄</span></label></div>
+        </div>
+        <div id="guide-list" class="guide-grid"><div class="loading-card"></div><div class="loading-card"></div><div class="loading-card"></div></div>
+        <div class="guide-bottom"><p><span class="verified-dot">✓</span> Every guide is reviewed before joining our community.</p><button id="guide-cta" class="text-link" type="button">Are you a local guide? <b>Join us ↗</b></button></div>
+      </div>
+    </section>
+
+    <section class="local-story section-wrap">
+      <div class="story-art"><div class="story-orbit orbit-a"></div><div class="story-orbit orbit-b"></div><div class="story-sun"></div><div class="story-mountain story-mountain-a"></div><div class="story-mountain story-mountain-b"></div><div class="story-little-house">⌂</div><div class="story-note">LOCAL KNOWLEDGE<br>IS THE BEST WAY IN</div></div>
+      <div class="story-copy"><div class="eyebrow"><span class="eyebrow-line"></span> TRAVEL THAT GIVES BACK</div><h2>When you meet local,<br>the whole place <em>opens up.</em></h2><p>Better recommendations. A fairer day’s pay. A memory that belongs to more than just the visitor. We believe good travel should feel good on both sides.</p><a href="#guides" class="text-link">Find your local <span>→</span></a></div>
+    </section>
+
+    <section id="budget" class="section-wrap section-block budget-section">
+      <div class="section-heading">
+        <div><div class="eyebrow"><span class="eyebrow-line"></span> KEEP THE GOOD PARTS IN VIEW</div><h2>Spend on the <em>stories.</em></h2></div>
+        <p>Your trip budget should feel like a guide, not a guessing game. See what’s planned and log what you actually spend.</p>
+      </div>
+      <div id="budget-content" class="budget-grid">
+        <div class="budget-card budget-card-main"><div class="budget-card-top"><span class="budget-icon"><svg><use href="#i-wallet"/></svg></span><span class="budget-status">LIVE TRIP BUDGET</span></div><div class="budget-number">₹<span id="budget-total">—</span></div><div class="budget-subtitle" id="budget-destination">Save an itinerary to open your trip ledger.</div><div class="budget-bar"><span id="budget-spent-bar" style="width:0%"></span></div><div class="budget-bar-legend"><span id="budget-spent">₹0 spent</span><span id="budget-left">₹0 left</span></div><div class="budget-divider"></div><div class="budget-categories" id="budget-categories"><div><span class="category-dot dot-coral"></span><span>Stay</span><b>—</b></div><div><span class="category-dot dot-green"></span><span>Food</span><b>—</b></div><div><span class="category-dot dot-blue"></span><span>Transport</span><b>—</b></div><div><span class="category-dot dot-gold"></span><span>Experiences</span><b>—</b></div></div></div>
+        <div class="expense-card card-surface"><div class="expense-heading"><div><span class="expense-icon">＋</span><span><b>Add a real-world spend</b><small>Keep the small details from slipping by.</small></span></div></div><form id="expense-form"><label class="field-label" for="expense-title">What did you spend on?</label><input id="expense-title" class="text-input" name="title" placeholder="e.g. Breakfast at a local café" required><div class="field-row"><label class="field-wrap"><span class="field-label">Amount</span><span class="input-shell"><span class="currency">₹</span><input name="amount" type="number" min="1" value="350" required></span></label><label class="field-wrap"><span class="field-label">Category</span><span class="select-shell"><select name="category"><option>Food</option><option>Stay</option><option>Transport</option><option>Experiences</option><option>Other</option></select><span>⌄</span></span></label></div><label class="field-label" for="expense-date">When?</label><input id="expense-date" class="text-input" name="spent_on" type="date" required><button class="button button-dark button-wide" type="submit">Add to my ledger <svg><use href="#i-arrow"/></svg></button></form><div id="expense-list" class="expense-list"></div></div>
+      </div>
+      <div class="budget-lock hidden" id="budget-lock"><span>✳</span><div><b>Your budget ledger is ready when you are.</b><p>Sign in, shape a trip and your spend tracker will follow along.</p></div><button class="button button-dark button-small" data-auth>Get started <svg><use href="#i-arrow"/></svg></button></div>
+    </section>
+
+    <section id="bookings" class="section-wrap section-block bookings-section">
+      <div class="section-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> THE DETAILS, TAKEN CARE OF</div><h2>Good plans make <em>room.</em></h2></div><p>Keep guide requests and confirmed outings together. You stay in control at every step.</p></div>
+      <div id="bookings-content" class="bookings-content"><div class="bookings-empty"><div class="empty-ticket">✳</div><div><b>Your trips will show up here.</b><p>Once you request a local guide, you can follow every update in one place.</p></div><a href="#guides" class="text-link">Explore local guides <span>→</span></a></div></div>
+    </section>
+
+    <section id="guide-studio" class="section-wrap section-block role-studio hidden"></section>
+    <section class="quote-strip"><div class="quote-mark">“</div><blockquote>Not more places. More of the place.</blockquote><span>THE DESTINEX WAY</span></section>
+    <section class="final-cta section-wrap"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR NEXT CHAPTER IS OUT THERE</div><h2>Go well. <em>Come back changed.</em></h2></div><a href="#planner" class="button button-coral">Start planning <svg><use href="#i-arrow"/></svg></a></section>
+  </main>
+
+  <footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-mark"><svg><use href="#i-mark"/></svg></span><span>DESTINEX<span class="brand-period">.</span></span></a><p>Plan smart. Travel trusted. Support local.</p><div class="footer-right"><span>Made for the way there.</span><span>© 2026 DESTINEX</span></div></footer>
+
+  <div id="modal-root"></div><div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
