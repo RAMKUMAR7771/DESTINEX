@@ -4,6 +4,10 @@
 
 DESTINEX is a local-first MVP for the travel platform described in the solution deck. It runs on Python's standard library and SQLite, so there is no package install, cloud account, or API key needed to start the demo.
 
+## Netlify deployment
+
+This repository includes a Netlify Functions API and a Netlify Database migration for the public site. Follow [DEPLOY_NETLIFY.md](DEPLOY_NETLIFY.md) to connect the site and create its first administrator. The demo accounts below are only for running the local Python launcher; the Netlify site does not use them.
+
 ## Start it on Windows
 
 1. Extract the project folder somewhere you can write to.
