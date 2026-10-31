@@ -148,14 +148,14 @@ function renderPlan(plan) {
 }
 function showPhrasebook() {
   modal(`<div class="eyebrow"><span class="eyebrow-line"></span> LITTLE WORDS, BIG WELCOME</div><h2>A few local phrases.</h2><p>A friendly way to begin. Have a guide help with pronunciation and context.</p>
-    <div class="phrase-box"><div><small>Hello · Telugu</small><b>Namaskāram</b></div><div><small>Thank you · Telugu</small><b>Dhanyavādālu</b></div><div><small>Hello · Hindi</small><b>Namaste</b></div><div><small>Thank you · Hindi</small><b>Dhanyavaad</b></div><div><small>Please · Telugu</small><b>Dayachēsi</b></div><div><small>How much? · Hindi</small><b>Kitne ka hai?</b></div></div><p>Phrasebook is included in this MVP. Live speech and text translation can be connected to a translation provider.</p>`);
+    <div class="phrase-box"><div><small>Hello · Telugu / తెలుగు</small><b>నమస్కారం · Namaskāram</b></div><div><small>Thank you · Telugu / తెలుగు</small><b>ధన్యవాదాలు · Dhanyavādālu</b></div><div><small>Hello · Hindi / हिन्दी</small><b>नमस्ते · Namaste</b></div><div><small>Thank you · Hindi / हिन्दी</small><b>धन्यवाद · Dhanyavaad</b></div><div><small>Please · Telugu / తెలుగు</small><b>దయచేసి · Dayachēsi</b></div><div><small>How much? · Hindi</small><b>कितने का है? · Kitne ka hai?</b></div></div><p>Phrasebook is included in this MVP. Live speech and text translation can be connected to a translation provider.</p>`);
 }
 
 $('#guide-destination').addEventListener('change', renderGuides);
 $('#guide-language').addEventListener('change', renderGuides);
 function renderGuides() {
   const destination = $('#guide-destination').value; const language = $('#guide-language').value;
-  const guides = app.guides.filter(g => (!destination || g.place === destination) && (!language || g.languages.includes(language)));
+  const guides = app.guides.filter(g => (!destination || g.place === destination) && (!language || g.languages.some(value => String(value).toLowerCase() === language.toLowerCase())));
   const grid = $('#guide-list');
   if (!guides.length) { grid.innerHTML = `<div class="studio-empty">No verified local guides match those filters yet. Try another destination or language.</div>`; return; }
   grid.innerHTML = guides.map((guide, i) => `<article class="guide-card"><div class="guide-cover"><span class="guide-cover-tag">${icon('check')} VERIFIED LOCAL</span><span class="guide-cover-label">${esc(guide.place)}</span></div><div class="guide-body"><div class="guide-name-row"><h3>${esc(guide.name)}</h3><span class="guide-rating"><b>★</b> ${Number(guide.rating).toFixed(1)} <span>(${guide.reviews})</span></span></div><p class="guide-intro">${esc(guide.bio)}</p><div class="guide-tags"><span>${esc(guide.specialty || 'Local guide')}</span>${guide.languages.slice(0,2).map(lang => `<span>${esc(lang)}</span>`).join('')}${guide.years ? `<span>${guide.years}+ yrs</span>` : ''}</div><div class="guide-meta"><div class="guide-price"><b>₹${money(guide.rate)}</b><small>per day · transparent price</small></div><button class="button button-outline book-guide" data-book-guide="${guide.id}" type="button">Meet ${esc(guide.name.split(' ')[0])} ${icon('arrow')}</button></div></div></article>`).join('');
