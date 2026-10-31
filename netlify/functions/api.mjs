@@ -1,6 +1,6 @@
 import { createHash, pbkdf2, randomBytes, timingSafeEqual } from "node:crypto";
 import { getDatabase } from "@netlify/database";
-import { DESTINATIONS } from "./destinations.mjs";
+import { DESTINATIONS, SUPPORTED_LANGUAGES } from "./destinations.mjs";
 
 const db = getDatabase();
 const COOKIE = "destinex_session";
@@ -190,7 +190,7 @@ async function handleGet(request, path, url) {
     const destinations = Object.entries(DESTINATIONS).map(([name, d]) => ({
       name, region: d.region, tagline: d.tagline, starting: d.starting
     }));
-    const languages = [...new Set(guides.flatMap((guide) => guide.languages || []))].sort();
+    const languages = [...new Set([...SUPPORTED_LANGUAGES, ...guides.flatMap((guide) => guide.languages || [])])];
     return json({ user, demo_mode: false, destinations, guides, languages });
   }
   if (path === "/api/guides") {
