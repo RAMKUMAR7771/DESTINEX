@@ -179,6 +179,87 @@ async function requestBody(request) {
   }
 }
 
+
+const RESET_NOTICE = "If an account exists for that email, a reset link will arrive shortly.";
+
+async function requestPasswordReset(body) {
+  if (!process.env.RESEND_API_KEY || !process.env.DESTINEX_EMAIL_FROM) {
+    throw new HttpError(503, "Password reset email is not configured yet. Ask the DESTINEX administrator to add the email settings in Netlify.");
+  }
+  const email = String(body.email || "").trim().toLowerCase();
+  if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return json({ message: RESET_NOTICE });
+  }
+  const users = await query("SELECT id,name,email FROM users WHERE email=$1", [email]);
+  if (!users.length) return json({ message: RESET_NOTICE });
+  const user = users[0];
+  const stamp = now();
+  await query("DELETE FROM password_resets WHERE expires_at <= $1 OR used_at IS NOT NULL", [stamp]);
+  const cutoff = new Date(Date.now() - 60000).toISOString();
+  const recent = await query("SELECT 1 FROM password_resets WHERE user_id=$1 AND created_at>$2 LIMIT 1", [user.id, cutoff]);
+  if (recent.length) return json({ message: RESET_NOTICE });
+
+  await query("DELETE FROM password_resets WHERE user_id=$1", [user.id]);
+  const token = randomBytes(32).toString("base64url");
+  const tokenHash = createHash("sha256").update(token).digest("hex");
+  const expires = new Date(Date.now() + 30 * 60 * 1000).toISOString();
+  await query(
+    "INSERT INTO password_resets(token_hash,user_id,expires_at,created_at) VALUES($1,$2,$3,$4)",
+    [tokenHash, user.id, expires, stamp]
+  );
+  const baseUrl = process.env.DESTINEX_SITE_URL || process.env.URL || "https://destinex-mvp-ramkumar7771.netlify.app";
+  const resetUrl = new URL("/", baseUrl);
+  resetUrl.searchParams.set("reset", token);
+  const link = resetUrl.toString();
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + process.env.RESEND_API_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: process.env.DESTINEX_EMAIL_FROM,
+        to: [user.email],
+        subject: "Reset your DESTINEX password",
+        text: "We received a request to reset your DESTINEX password. Use this link within 30 minutes: " + link + "\n\nThis link can be used once. If you did not request this, you can ignore this email.",
+        html: "<p>We received a request to reset your DESTINEX password.</p><p><a href=\"" + link + "\">Reset your password</a></p><p>This link expires in 30 minutes and can be used once. If you did not request this, you can ignore this email.</p>"
+      }),
+      signal: AbortSignal.timeout(8000)
+    });
+    if (!response.ok) throw new Error("Email provider returned status " + response.status);
+  } catch (error) {
+    console.error("DESTINEX password reset email delivery failed", error?.name || "Error");
+    await query("DELETE FROM password_resets WHERE token_hash=$1", [tokenHash]);
+  }
+  return json({ message: RESET_NOTICE });
+}
+
+async function completePasswordReset(body) {
+  const token = String(body.token || "").trim();
+  const password = String(body.password || "");
+  if (!/^[A-Za-z0-9_-]{40,80}$/.test(token)) {
+    throw new HttpError(400, "This reset link is invalid or expired. Request a new one.");
+  }
+  if (password.length < 8 || password.length > 200) {
+    throw new HttpError(400, "Choose a password between 8 and 200 characters.");
+  }
+  const tokenHash = createHash("sha256").update(token).digest("hex");
+  const stamp = now();
+  const rows = await query(
+    "UPDATE password_resets SET used_at=$2 WHERE token_hash=$1 AND used_at IS NULL AND expires_at>$2 RETURNING user_id",
+    [tokenHash, stamp]
+  );
+  if (!rows.length) throw new HttpError(400, "This reset link is invalid or expired. Request a new one.");
+  const userId = rows[0].user_id;
+  const hashed = await passwordHash(password);
+  await query("UPDATE users SET password_hash=$1 WHERE id=$2", [hashed, userId]);
+  await query("DELETE FROM sessions WHERE user_id=$1", [userId]);
+  await query("DELETE FROM password_resets WHERE user_id=$1", [userId]);
+  return json({ ok: true, message: "Password updated. Sign in with your new password." });
+}
+
 async function handleGet(request, path, url) {
   if (path === "/api/health") {
     return json({ ok: true, product: "DESTINEX", mode: "public" });
@@ -253,6 +334,8 @@ async function handleGet(request, path, url) {
 
 async function handlePost(request, path) {
   const body = await requestBody(request);
+  if (path === "/api/auth/forgot-password") return await requestPasswordReset(body);
+  if (path === "/api/auth/reset-password") return await completePasswordReset(body);
   if (path === "/api/auth/login") {
     const email = String(body.email || "").trim().toLowerCase();
     const password = String(body.password || "");
@@ -435,7 +518,7 @@ export const config = {
   path: [
     "/api/health", "/api/bootstrap", "/api/guides", "/api/plans", "/api/expenses", "/api/bookings",
     "/api/bookings/:bookingId/action", "/api/bookings/:bookingId/pay",
-    "/api/auth/login", "/api/auth/signup", "/api/auth/logout", "/api/reviews",
+    "/api/auth/login", "/api/auth/signup", "/api/auth/logout", "/api/auth/forgot-password", "/api/auth/reset-password", "/api/reviews",
     "/api/guide/profile", "/api/guide/apply", "/api/admin/guide-applications", "/api/admin/metrics",
     "/api/admin/guides/:guideId/decision"
   ]
