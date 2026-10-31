@@ -63,5 +63,129 @@ export const DESTINATIONS = {
       { name: "Banana plantation lunch", kind: "food", cost: 350, time: "Afternoon", detail: "Try a local thali in a leafy riverside setting." },
       { name: "Anegundi village cycle", kind: "adventure", cost: 300, time: "Afternoon", detail: "Cycle between small temples, farms and village lanes." }
     ]
+  },
+  Hyderabad: {
+    region: "Telangana",
+    tagline: "Deccan stories, lake evenings and generous plates.",
+    starting: 2800,
+    activities: [
+      { name: "Charminar & Laad Bazaar", kind: "culture", cost: 100, time: "Morning", detail: "Walk the old city lanes around Hyderabad's best-known monument." },
+      { name: "Golconda Fort", kind: "adventure", cost: 250, time: "Morning", detail: "Explore the hilltop fort and its gateways at a comfortable pace." },
+      { name: "Chowmahalla Palace", kind: "culture", cost: 150, time: "Afternoon", detail: "See the courtyards and collections of the former Nizams." },
+      { name: "Hussain Sagar lakeside", kind: "nature", cost: 80, time: "Sunset", detail: "Take a relaxed evening walk by the lake." },
+      { name: "Old city food walk", kind: "food", cost: 450, time: "Evening", detail: "Sample local favourites with attention to spice and dietary needs." },
+      { name: "Qutb Shahi Tombs", kind: "culture", cost: 100, time: "Afternoon", detail: "Discover the garden tombs and their distinctive Deccan architecture." }
+    ]
+  },
+  Chennai: {
+    region: "Tamil Nadu",
+    tagline: "Temple streets, sea air and a strong filter coffee.",
+    starting: 2700,
+    activities: [
+      { name: "Kapaleeshwarar Temple & Mylapore", kind: "culture", cost: 0, time: "Morning", detail: "Visit the temple precinct and its lively neighbourhood streets." },
+      { name: "Marina Beach walk", kind: "nature", cost: 0, time: "Sunrise", detail: "Enjoy the seafront in the cooler early hours." },
+      { name: "Fort St. George", kind: "culture", cost: 100, time: "Late morning", detail: "Explore the fort and museum collections from Chennai's history." },
+      { name: "Mylapore coffee & tiffin trail", kind: "food", cost: 300, time: "Morning", detail: "Try a traditional breakfast and filter coffee at local cafés." },
+      { name: "San Thome Basilica", kind: "culture", cost: 0, time: "Afternoon", detail: "Visit the basilica and learn about its place in the city." },
+      { name: "DakshinaChitra craft visit", kind: "culture", cost: 250, time: "Afternoon", detail: "See regional homes, crafts and performing arts at a living-history centre." }
+    ]
+  },
+  Bengaluru: {
+    region: "Karnataka",
+    tagline: "Garden shade, old markets and a city that loves to eat.",
+    starting: 3000,
+    activities: [
+      { name: "Lalbagh Botanical Garden", kind: "nature", cost: 50, time: "Morning", detail: "Take a quiet walk through the historic garden and glasshouse." },
+      { name: "Bengaluru Palace", kind: "culture", cost: 300, time: "Late morning", detail: "Explore the palace rooms and grounds at your own pace." },
+      { name: "KR Market flower lanes", kind: "culture", cost: 0, time: "Early morning", detail: "See the colourful wholesale flower market before the day gets busy." },
+      { name: "Basavanagudi dosa trail", kind: "food", cost: 300, time: "Evening", detail: "Try neighbourhood snacks and South Indian staples." },
+      { name: "Cubbon Park", kind: "nature", cost: 0, time: "Afternoon", detail: "Rest under the trees in the heart of the city." },
+      { name: "Tipu Sultan's Summer Palace", kind: "culture", cost: 50, time: "Afternoon", detail: "See the carved wooden halls and learn about the city's past." }
+    ]
+  },
+  Goa: {
+    region: "Goa",
+    tagline: "Heritage lanes, coastal paths and time to slow down.",
+    starting: 3400,
+    activities: [
+      { name: "Fontainhas heritage walk", kind: "culture", cost: 0, time: "Morning", detail: "Wander Panaji's colourful Latin Quarter with a local guide." },
+      { name: "Old Goa churches", kind: "culture", cost: 0, time: "Late morning", detail: "Explore the historic churches and their shared heritage." },
+      { name: "Local market & snack stop", kind: "food", cost: 350, time: "Afternoon", detail: "Try Goan snacks and seasonal produce at a neighbourhood market." },
+      { name: "Spice farm visit", kind: "nature", cost: 500, time: "Afternoon", detail: "Walk a working spice garden and learn about local ingredients." },
+      { name: "Coastal sunset viewpoint", kind: "nature", cost: 0, time: "Sunset", detail: "Finish with a quiet view of the Arabian Sea." },
+      { name: "Mandovi riverside", kind: "adventure", cost: 100, time: "Evening", detail: "Take an easy riverside walk and enjoy the cooler evening air." }
+    ]
+  },
+  Mumbai: {
+    region: "Maharashtra",
+    tagline: "Harbour landmarks, local trains and neighbourhood flavours.",
+    starting: 3600,
+    activities: [
+      { name: "Gateway of India & Colaba", kind: "culture", cost: 0, time: "Morning", detail: "See the harbour landmark and explore the surrounding lanes." },
+      { name: "Elephanta Caves", kind: "culture", cost: 500, time: "Morning", detail: "Take the ferry to the island caves; check ferry times before you go." },
+      { name: "Fort heritage walk", kind: "culture", cost: 0, time: "Late morning", detail: "Notice the city's historic buildings and busy streets." },
+      { name: "Marine Drive", kind: "nature", cost: 0, time: "Sunset", detail: "Walk the seafront promenade as the city lights come on." },
+      { name: "Dadar market food trail", kind: "food", cost: 350, time: "Afternoon", detail: "Taste familiar Mumbai snacks in a lively local market." },
+      { name: "Sanjay Gandhi National Park", kind: "adventure", cost: 100, time: "Morning", detail: "Choose an easy nature walk within the city's large green reserve." }
+    ]
+  },
+  "Delhi & Agra": {
+    region: "Delhi & Uttar Pradesh",
+    tagline: "Monuments, old-city lanes and Mughal-era stories.",
+    starting: 3900,
+    activities: [
+      { name: "Humayun's Tomb", kind: "culture", cost: 200, time: "Morning", detail: "Walk through the gardens and red sandstone architecture." },
+      { name: "Qutub Minar complex", kind: "culture", cost: 200, time: "Late morning", detail: "Explore the towers and monuments of the historic complex." },
+      { name: "Old Delhi food walk", kind: "food", cost: 450, time: "Afternoon", detail: "Try local snacks with a guide who can help navigate the lanes." },
+      { name: "India Gate & central vista", kind: "nature", cost: 0, time: "Evening", detail: "Take a relaxed walk through the broad central avenues." },
+      { name: "Taj Mahal visit", kind: "culture", cost: 600, time: "Sunrise", detail: "Plan the early visit and confirm current entry arrangements locally." },
+      { name: "Agra Fort", kind: "culture", cost: 300, time: "Afternoon", detail: "See the fort's courtyards and views across the Yamuna." }
+    ]
+  },
+  Varanasi: {
+    region: "Uttar Pradesh",
+    tagline: "River mornings, old lanes and living traditions.",
+    starting: 2600,
+    activities: [
+      { name: "Sunrise at the ghats", kind: "culture", cost: 0, time: "Sunrise", detail: "See the riverfront wake up; follow local guidance around ceremonies." },
+      { name: "Old city lane walk", kind: "culture", cost: 0, time: "Morning", detail: "Explore the narrow streets with a guide who knows the neighbourhood." },
+      { name: "Banarasi weaving visit", kind: "culture", cost: 200, time: "Late morning", detail: "Learn about the craft and the people who keep it going." },
+      { name: "Local vegetarian food trail", kind: "food", cost: 300, time: "Afternoon", detail: "Sample regional snacks and sweets at small local shops." },
+      { name: "Sarnath museum and stupa", kind: "culture", cost: 150, time: "Afternoon", detail: "Visit an important Buddhist heritage site just outside the city." },
+      { name: "Ganga Aarti riverside view", kind: "culture", cost: 0, time: "Evening", detail: "Observe the evening ceremony respectfully from a suitable public spot." }
+    ]
+  },
+  Udaipur: {
+    region: "Rajasthan",
+    tagline: "Lake light, painted lanes and a slower royal-city day.",
+    starting: 3200,
+    activities: [
+      { name: "City Palace", kind: "culture", cost: 400, time: "Morning", detail: "Explore the palace rooms and terraces overlooking the lake." },
+      { name: "Jagdish Temple & old lanes", kind: "culture", cost: 0, time: "Late morning", detail: "Walk the temple approach and nearby craft streets." },
+      { name: "Lake Pichola boat ride", kind: "nature", cost: 500, time: "Sunset", detail: "See the city and lakefront from the water; check current boat times." },
+      { name: "Saheliyon Ki Bari", kind: "nature", cost: 50, time: "Afternoon", detail: "Take a shaded walk through the historic garden." },
+      { name: "Rajasthani thali stop", kind: "food", cost: 350, time: "Evening", detail: "Try a regional meal at a local restaurant." },
+      { name: "Bada Bazaar craft walk", kind: "culture", cost: 0, time: "Afternoon", detail: "Browse local textiles, miniature paintings and everyday market goods." }
+    ]
+  },
+  Madurai: {
+    region: "Tamil Nadu",
+    tagline: "Temple towers, jasmine markets and an unforgettable breakfast.",
+    starting: 2400,
+    activities: [
+      { name: "Meenakshi Amman Temple", kind: "culture", cost: 0, time: "Morning", detail: "Visit respectfully and check current entry and photography rules." },
+      { name: "Puthu Mandapam & old streets", kind: "culture", cost: 0, time: "Morning", detail: "Explore the historic market lanes beside the temple." },
+      { name: "Thirumalai Nayakkar Palace", kind: "culture", cost: 100, time: "Afternoon", detail: "See the palace courtyard and its distinctive columns." },
+      { name: "Jasmine flower market", kind: "culture", cost: 100, time: "Early morning", detail: "Experience the lively flower trade and its local traditions." },
+      { name: "Madurai tiffin trail", kind: "food", cost: 300, time: "Evening", detail: "Sample South Indian tiffin favourites at local eateries." },
+      { name: "Gandhi Memorial Museum", kind: "culture", cost: 0, time: "Afternoon", detail: "Learn about India's freedom movement through the museum exhibits." }
+    ]
   }
 };
+
+export const SUPPORTED_LANGUAGES = [
+  "Telugu", "English", "Hindi", "Tamil", "Kannada", "Malayalam", "Bengali",
+  "Marathi", "Gujarati", "Punjabi", "Urdu", "Odia", "Assamese", "Kashmiri",
+  "Sanskrit", "French", "Spanish", "Japanese"
+];
+
