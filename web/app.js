@@ -1,6 +1,7 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const app = { user: null, destinations: [], guides: [], currentPlan: null, plans: [], bookings: [], pendingIntent: null };
+const SUPPORTED_GUIDE_LANGUAGES = ['Telugu', 'English', 'Hindi', 'Tamil', 'Kannada', 'Malayalam', 'Bengali', 'Marathi', 'Gujarati', 'Punjabi', 'Urdu', 'Odia', 'Assamese', 'Kashmiri', 'Sanskrit', 'French', 'Spanish', 'Japanese'];
 const money = value => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Number(value || 0));
 const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const icon = name => `<svg aria-hidden="true"><use href="#i-${name}"></use></svg>`;
@@ -96,7 +97,17 @@ function fillDestinations() {
     guide.insertAdjacentHTML('beforeend', `<option value="${esc(item.name)}">${esc(item.name)}</option>`);
   }
 }
-function fillLanguages(languages = []) { const select = $('#guide-language'); for (const language of languages) select.insertAdjacentHTML('beforeend', `<option value="${esc(language)}">${esc(language)}</option>`); }
+function fillLanguages(languages = []) {
+  const select = $('#guide-language');
+  const seen = new Set();
+  for (const value of [...SUPPORTED_GUIDE_LANGUAGES, ...languages]) {
+    const language = String(value || '').trim();
+    const key = language.toLocaleLowerCase();
+    if (!language || seen.has(key)) continue;
+    seen.add(key);
+    select.insertAdjacentHTML('beforeend', `<option value="${esc(language)}">${esc(language)}</option>`);
+  }
+}
 async function refreshForUser() {
   renderUser();
   if (!app.user) return;
@@ -202,10 +213,10 @@ async function refreshBudget() {
   } catch (error) { if (!error.message.includes('sign in')) notify(error.message,true); }
 }
 $('#expense-form').addEventListener('submit', async event => {
-  event.preventDefault(); if (!app.user) { openAuth('login'); return; }
+  event.preventDefault(); const form = event.currentTarget; if (!app.user) { openAuth('login'); return; }
   if (!app.currentPlan) { notify('Shape and save a trip first to start its budget ledger.'); $('#planner').scrollIntoView({ behavior:'smooth' }); return; }
-  const button=$('button[type="submit"]',event.currentTarget);setBusy(button,true);
-  try { const values=Object.fromEntries(new FormData(event.currentTarget)); values.plan_id=app.currentPlan.id; values.amount=Number(values.amount); await api('/api/expenses',{method:'POST',body:JSON.stringify(values)}); event.currentTarget.reset(); $('#expense-date').value=new Date().toISOString().slice(0,10); await refreshBudget(); notify('Expense added to your trip ledger.'); }
+  const button=$('button[type="submit"]',form);setBusy(button,true);
+  try { const values=Object.fromEntries(new FormData(form)); values.plan_id=app.currentPlan.id; values.amount=Number(values.amount); await api('/api/expenses',{method:'POST',body:JSON.stringify(values)}); form.reset(); $('#expense-date').value=new Date().toISOString().slice(0,10); await refreshBudget(); notify('Expense added to your trip ledger.'); }
   catch(error){notify(error.message,true)} finally{setBusy(button,false)}
 });
 
